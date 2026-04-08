@@ -1,38 +1,61 @@
 package personnages;
 
+import objet.Chaudron;
+
 public class Druide {
-    private String nom;
-    private int force;
-    private Chaudron chaudron;
 
-    public Druide(String nom, int force) {
-        this.nom = nom;
-        this.force = force;
-        this.chaudron = new Chaudron(); 
-    }
+	private String nom;
+	private int force;
+	private Chaudron chaudron;
 
-    public void parler(String texte) {
-        System.out.println(prendreParole() + "\"" + texte + "\"");
-    }
+	public Druide(String nom, int force) {
+		this.force = force;
+		this.nom = nom;
+		this.chaudron = new Chaudron();
+	}
 
-    private String prendreParole() {
-        return "Le Druide " + nom + " : "; 
-    }
+	public String getNom() {
+		return nom;
+	}
 
-    public void fabriquerPotion(int quantite, int forcePotion) {
-        chaudron.remplirChaudron(quantite, forcePotion);
-        parler("J'ai concocté " + quantite + " doses de potion magique. Elle a une force de " + forcePotion + "."); 
-    }
+	public void parler(String texte) {
+		System.out.println(prendreParole() + "\"" + texte + "\"");
+	}
 
-    public void booster(Gaulois gaulois) {
-        if ("Obélix".equals(gaulois.getNom())) { 
-            parler("Non, " + gaulois.getNom() + " Non!... Et tu le sais très bien !"); 
-        } else if (chaudron.resterPotion()) {
-            int forcePotion = chaudron.prendreLouche(); 
-            gaulois.boirePotion(forcePotion); 
-            parler("Tiens " + gaulois.getNom() + " un peu de potion magique."); 
-        } else {
-            parler("Désolé " + gaulois.getNom() + " il n'y a plus une seule goutte de potion.");
-        }
-    }
+	private String prendreParole() {
+		return "Le Druide " + nom + " : ";
+	}
+
+	public void fabriquerPotion(int quantite, int forcePotion) {
+		chaudron.remplirChaudron(quantite, forcePotion);
+		this.parler("J'ai concoté " + quantite + " doses de potion magique. Elle a une force de " + forcePotion + ".");
+	}
+
+	public void booster(Gaulois gaulois) {
+		if ("Obélix".equals(gaulois.getNom())) {
+			parler("Nom," + gaulois.getNom() + ", Non!...Et tu le sais trés bien !");
+		} else if (chaudron.resterPotion()) {
+			gaulois.boirePotion(chaudron.prendreLouche());
+			parler("Tiens," + gaulois.getNom() + ", un peu de potion magique.");
+		} else {
+			parler("Désolé" + gaulois.getNom() + ", il n'y a plsu une seule goute de potion.");
+		}
+	}
+
+	public void recevoirCoup(int forceCoup) {
+		this.force = this.force - forceCoup;
+		if (this.force <= 0) {
+			this.prendreParole();
+			this.parler("J'abandonne !");
+		} else {
+			this.prendreParole();
+			this.parler("Aïe");
+		}
+	}
+
+	@Override
+	public String toString() {
+		return nom;
+	}
+
 }
