@@ -1,7 +1,7 @@
 package objet;
 
 import personnages.Gaulois;
-
+import objet.Equipement;
 
 public class Trophee {
 	private Gaulois gaulois;
